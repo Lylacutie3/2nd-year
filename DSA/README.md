@@ -123,10 +123,27 @@ Now lets talk about how to add or push using pointers. To add a new Node to the 
     }
 
 ❌❌❌❌ Often Mistake! adding a value in head using pointers p or q... wrong.
+
 Lets try adding a value to nodes!
 
-    push(10); // 10 -> NULL
+    push(10); 10 -> NULL
+        /* This what happened:
+                  head 
+        linklist: NULL
+
+        head == newNode;
+        linklist: 10 -> NULL */
+
     push(20); // 10 -> 20 -> NULL
+        /* This what happened:
+                 head
+                   q     p
+        linklist: 10 -> NULL
+
+        q->next = newNode;
+                   q -> next
+        linklist: 10 -> 20 -> NULL */
+
     push(30); // 10 -> 20 -> 30 -> NULL
     push(40); // 10 -> 20 -> 30 -> 40 -> NULL   
     push(50); // 10 -> 20 -> 30 -> 40 -> 50 -> NULL
