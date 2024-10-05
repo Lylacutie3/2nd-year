@@ -100,53 +100,44 @@ When working in pointers you need to have a struct. Declare a struct that is Nod
 
 This constructor ensures that whenever you create a new Node, it will have its data field initialized and its next pointer set to NULL.
 
-Now lets talk about how to add or push using pointers. To add a new Node to the end of a linked list, we can use two pointers, q = prev and p = present, to traverse(visiting node) the list and find the last Node.
+Now lets talk about how to add or push using pointers. To add a new Node to the end of a linked list, we can use two pointers. 
+‼ Always remember that add in top or head and remove on the top or head.
 
     Node *head; //start in creating a linklist
 
     head(NULL){} // initialized the head into a NULL
 
     void push(int x){ //pasing a Node x with value 
-    Node newNode = new Node(x); //putting the value of x in the data of new created node
-    
-    if(head == NULL){//check if list is empty
-        head == newNode //make sure that the head first, this will not create link list if head is empty
-    }else{
-        Node* q = head; //use p and q to transvers in the list
-        Node* p = head;
-        while(p != NULL){ //loop until we reach the end of the list
-        q = p; //q is the previous node
-        p = p->next;
-        }
-        q->next = newNode; //link the new node to the previous node
+    Node* newNode = new Node(x); //putting the value of x in the data of new created 
+    newNode -> next = head; //making newNode infront
+    head = newNode; //make the newNode as head
     }
-    }
-
-❌❌❌❌ Often Mistake! adding a value in head using pointers p or q... wrong.
 
 Lets try adding a value to nodes!
 
     push(10); 10 -> NULL
         /* This what happened:
-                  head 
-        linklist: NULL
-
-        head == newNode;
-        linklist: 10 -> NULL */
-
-    push(20); // 10 -> 20 -> NULL
-        /* This what happened:
-                 head
-                   q     p
+        newNode -> next = head;
+                        head 
         linklist: 10 -> NULL
 
-        q->next = newNode;
-                   q -> next
-        linklist: 10 -> 20 -> NULL */
+        head = newNode;
+                   head
+        linklist:   10 -> NULL */
 
-    push(30); // 10 -> 20 -> 30 -> NULL
-    push(40); // 10 -> 20 -> 30 -> 40 -> NULL   
-    push(50); // 10 -> 20 -> 30 -> 40 -> 50 -> NULL
+    push(20); // 20 -> 10 -> NULL
+        /* This what happened:
+        newNode -> next = head;
+                       head 
+        linklist: 20 -> 10 -> NULL
+
+        head = newNode;
+                 head
+        linklist: 20 -> 10 -> NULL */
+
+    push(30); // 30 -> 20 -> 10 -> NULL
+    push(40); // 40 -> 30 -> 20 -> 10 -> NULL   
+    push(50); // 50 -> 40 -> 30 -> 20 -> 10 -> NULL
     
 You can add value as many as you want thats the perks of pointers no limit!
 
@@ -158,30 +149,27 @@ Here now how to remove a Node? unlike in array you just need to reduce your poin
             cout << "List is empty" << endl; 
             //there is nothing to remove here...
         }else{
-            Node* q = head; //use p and q to transvers in the list
-            Node* p = head;
-            while(p->next!= NULL){ //loop until we reach the end of the list
-                q = p;
-                p = p->next;
-            }
-            q->next = NULL; //make the second to the last link into the NULL   
-            delete p;//delete last node
+            Node *temp = head;
+            head = head->next; 
+            delete temp; //delete the old head
         }
+    }
 
 Now lets try to use the pop function.
 
-    pop(); // 10 -> 20 -> 30 -> 40 -> NULL
+    pop(); // 40 -> 30 -> 20 -> 10 -> NULL
     /*this happened:
-
-             head               q      p
-    linklist: 10 -> 20 -> 30 -> 40 -> 50 -> NULL
+    Node* temp = head;
+             temp
+             head               
+    linklist: 50 -> 40 -> 30 -> 20 -> 10 -> NULL
             
-    q->next = NULL; //make the second to the last link into the NULL
-             head               q             p    
-    linklist: 10 -> 20 -> 30 -> 40 -> NULL    50 -> NULL
+    head = head->next; //move the head to the next node
+             temp     head                
+    linklist: 50 ->    40 -> 30 -> 20 -> 10 -> NULL
             
-    delete p;//delete last node
-           50 -> NULL (delete to memory)
+    delete temp;//delete last node
+            50 (delete to memory)
     */
 
 And that how the pop function works it remove the last NODE incase of STACKS
