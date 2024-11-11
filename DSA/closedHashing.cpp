@@ -4,13 +4,13 @@
  Closed Hashing
 */
 #include <iostream>
-#define BUCKET_SIZE 10
+#define BUCKET_SIZE 5
 
 using namespace std;
 struct Node{
     int data[BUCKET_SIZE];
     int last;
-    Node():last(-1){}
+    Node():last(0){}
 };
 
 class Close {
@@ -22,7 +22,7 @@ private:
         }
     }
     bool iffull(){
-        return hash.last == 10;
+        return hash.last == 5;
     }
     bool ifempty(){
         return hash.last == -1;
@@ -47,7 +47,7 @@ public:
             if (hash.data[index] == x) {
                 return; //duplicate input not allow
             }
-            for(int i = index; i <= BUCKET_SIZE + hash.last; i++){ //circ
+            for(int i = index; i <= index + hash.last; i++){ //circ
                 if(hash.data[i%BUCKET_SIZE] == -1){//making sure that probing will not be in deleted slot
                     hash.data[i%BUCKET_SIZE] = x;
                     ++hash.last;
@@ -61,9 +61,10 @@ public:
         if (ifempty()) {// ask if empty
             return -1;
         }
-        for(int i = x % BUCKET_SIZE; i <= BUCKET_SIZE + hash.last; i++){
-            if(hash.data[i%BUCKET_SIZE] == x){
-                return i%BUCKET_SIZE;
+        int index =  x % BUCKET_SIZE; ;
+        for(int i = index; i <= index + hash.last; i++){
+            if(hash.data[index] == x){
+                return index;
         }} //proccessed on searching 
         return -1;
     }
